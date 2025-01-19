@@ -22,6 +22,15 @@ class UserRepository {
       console.log("error while deleting user error message:", error);
     }
   }
+
+  async getByEmail(userEmail) {
+    try {
+      const user = await User.findOne({ where: { email: userEmail } });
+      return user;
+    } catch (error) {
+      console.log("error while finding user email", error);
+    }
+  }
 }
 
 module.exports = UserRepository;
