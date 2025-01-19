@@ -64,6 +64,9 @@ const signIn = async (req, res) => {
       req.body.email,
       req.body.password
     );
+    if (!response) {
+      throw { error: "User not found" };
+    }
     return res.status(200).json({
       data: response,
       message: "successfully sign in",

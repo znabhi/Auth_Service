@@ -28,11 +28,17 @@ class UserService {
     try {
       // console.log(plainPassword);
       const user = await this.userRepository.getByEmail(email);
-
+      if (!user) {
+        console.log("this email not found");
+        throw { error: "Not exist this email" };
+      }
       const passwordMatch = this.checkPassword(plainPassword, user.password);
+
+      // console.log(passwordMatch);
 
       if (!passwordMatch) {
         console.log(`password don't match`);
+        throw { error: "Invalid Password" };
       }
       const newToken = await this.createToken({
         email: user.email,
