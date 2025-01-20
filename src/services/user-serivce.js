@@ -15,6 +15,7 @@ class UserService {
       console.log("error in service layer", error);
     }
   }
+
   async destroy(userId) {
     try {
       const user = await this.userRepository.delete(userId);
@@ -34,8 +35,6 @@ class UserService {
       }
       const passwordMatch = this.checkPassword(plainPassword, user.password);
 
-      // console.log(passwordMatch);
-
       if (!passwordMatch) {
         console.log(`password don't match`);
         throw { error: "Invalid Password" };
@@ -50,21 +49,39 @@ class UserService {
     }
   }
 
-  async createToken(user) {
+  async isAuthenticated(token) {
     try {
-      const result = jwt.sign(user, JWT_KEY, { expiresIn: "30" });
+      const response = this.verifyToken(token);
+      if (!response) {
+        throw { error: "Invalid Token" };
+      }
+      const user = await this.userRepository.getById(response.id);
+      if (!user) {
+        throw { error: "No user with the corresponding token exists" };
+      }
+      return user.id;
+    } catch (error) {
+      console.log("Something went wrong in the auth process");
+      throw error;
+    }
+  }
+
+  createToken(user) {
+    try {
+      const result = jwt.sign(user, JWT_KEY, { expiresIn: "1d" });
       return result;
     } catch (error) {
       console.log("some error while generating token", error);
     }
   }
 
-  async verifyToken(token) {
+  verifyToken(token) {
     try {
       const response = jwt.verify(token, JWT_KEY);
       return response;
     } catch (error) {
       console.log("error in verify token ", error);
+      throw error;
     }
   }
 

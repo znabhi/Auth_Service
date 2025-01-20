@@ -23,6 +23,15 @@ class UserRepository {
     }
   }
 
+  async getById(userId) {
+    try {
+      const user = await User.findByPk(userId);
+      return user;
+    } catch (error) {
+      console.log("this user not exist ", error);
+    }
+  }
+
   async getByEmail(userEmail) {
     try {
       const user = await User.findOne({ where: { email: userEmail } });

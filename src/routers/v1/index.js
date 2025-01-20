@@ -8,6 +8,9 @@ router.post(
   AuthRequestValidators.validateAuthUser,
   UserController.create
 );
+
+router.get("/isAuthenticated", UserController.isAuthenticated);
+
 router.post(
   "/signin",
   AuthRequestValidators.validateAuthUser,
