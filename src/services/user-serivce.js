@@ -66,6 +66,16 @@ class UserService {
     }
   }
 
+  async isAdmin(userId) {
+    try {
+      const response = await this.userRepository.isAdmin(userId);
+      return response;
+    } catch (error) {
+      console.log("error in user services");
+      throw error;
+    }
+  }
+
   createToken(user) {
     try {
       const result = jwt.sign(user, JWT_KEY, { expiresIn: "1d" });

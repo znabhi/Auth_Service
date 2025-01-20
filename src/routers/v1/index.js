@@ -8,12 +8,17 @@ router.post(
   AuthRequestValidators.validateAuthUser,
   UserController.create
 );
-
 router.get("/isAuthenticated", UserController.isAuthenticated);
-
 router.post(
   "/signin",
   AuthRequestValidators.validateAuthUser,
   UserController.signIn
 );
+
+router.get(
+  "/isAdmin",
+  AuthRequestValidators.validateIsAdminRequest,
+  UserController.isAdmin
+);
+
 module.exports = router;
