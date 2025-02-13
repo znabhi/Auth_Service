@@ -7,6 +7,7 @@ class UserRepository {
       return user;
     } catch (error) {
       console.log("Something went wrong in repository", error);
+      throw error;
     }
   }
 

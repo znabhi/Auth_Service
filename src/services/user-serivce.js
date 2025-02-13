@@ -13,6 +13,7 @@ class UserService {
       return user;
     } catch (error) {
       console.log("error in service layer", error);
+      throw error;
     }
   }
 

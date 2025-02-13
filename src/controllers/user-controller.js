@@ -1,8 +1,10 @@
 const { where } = require("sequelize");
 const { User } = require("../models/index");
 const UserService = require("../services/user-serivce");
+const UserRepository = require("../repository/user-repository");
 
 const userService = new UserService();
+const userRepository = new UserRepository();
 
 const create = async (req, res) => {
   try {
@@ -126,10 +128,30 @@ const isAdmin = async (req, res) => {
   }
 };
 
+const getById = async (req, res) => {
+  try {
+    const userData = await userRepository.getById(req.params.id);
+    return res.status(200).json({
+      data: userData,
+      message: "successfully fatched",
+      success: true,
+      error: {},
+    });
+  } catch (error) {
+    return res.status(500).json({
+      data: {},
+      message: "error while fatching up ",
+      success: false,
+      error: error,
+    });
+  }
+};
+
 module.exports = {
   create,
   destroy,
   signIn,
+  getById,
   isAdmin,
   isAuthenticated,
 };

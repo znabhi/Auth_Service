@@ -9,6 +9,7 @@ router.post(
   UserController.create
 );
 router.get("/isAuthenticated", UserController.isAuthenticated);
+router.get("/:id", UserController.getById);
 router.post(
   "/signin",
   AuthRequestValidators.validateAuthUser,
